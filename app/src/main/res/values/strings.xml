@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">News Station</string>
+    <string name="news"></string>
+    <string name="finance"></string>
+    <string name="sport"></string>
+    <string name="weather"></string>
+
+</resources>
