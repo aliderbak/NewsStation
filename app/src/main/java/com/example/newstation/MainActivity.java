@@ -46,23 +46,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //For API
-        final APIInterfaceNews apiService = ApiClient.getClient().create(APIInterfaceNews.class);
-        Call<ResponseModelNews> call = apiService.getLatestNews("techcrunch",API_KEY);
-        call.enqueue(new Callback<ResponseModelNews>() {
-            @Override
-            public void onResponse(Call<ResponseModelNews> call, Response<ResponseModelNews> response) {
-                if(response.body().getStatus().equals("ok")){
-                    List<ArticleNews> articleNews = response.body().getArticles();
-                    if (articleNews.size()>0){}
-                }
-            }
 
-            @Override
-            public void onFailure(Call<ResponseModelNews> call, Throwable t) {
-                Log.e("out",t.toString());
-
-            }
-        });
 
 
 

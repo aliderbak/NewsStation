@@ -20,6 +20,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
     private Context context;
     public NewsAdapter(List<ArticleNews> articleArrayList){
         this.articleArrayList=articleArrayList;
+        //this.context=context;
     }
     @Override
     public NewsAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i){
@@ -37,13 +38,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
             viewHolder.descriptionText.setText(articleNews.getDescription());
         }
         viewHolder.artilceAdapterParentLinear.setTag(articleNews);
-        viewHolder.artilceAdapterParentLinear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context,articleArrayList.get(position).getTitle() +" Clicked",Toast.LENGTH_LONG).show();
 
-            }
-        });
 
     }
     @Override
