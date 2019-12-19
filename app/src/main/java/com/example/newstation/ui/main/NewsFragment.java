@@ -63,7 +63,7 @@ public class NewsFragment extends Fragment {
     String API_KEY = "ff8c03c87d0048fb8ce9209c6239d52c"; // ### YOUE NEWS API HERE ###
     String NEWS_SOURCE = "techcrunch"; // Other news source code at: https://newsapi.org/sources
     String COUNTRY = "tr";
-    String category = "entertainment";
+    String category = "general";
      public ListView listNews;
     ProgressBar loader;
     ArrayList<HashMap<String, String>> dataList = new ArrayList<>();
@@ -105,9 +105,7 @@ public class NewsFragment extends Fragment {
                              Bundle savedInstanceState) {
 View view =  inflater.inflate(R.layout.fragment_main, container, false);
      listNews = (ListView) view.findViewById(R.id.listNews);
-        //listNews = listNews.findViewById(R.id.listNews);
-        //loader = (ProgressBar) view.findViewById(R.id.loader);
-        //listNews.setEmptyView(loader);
+
         return view;
 
     }
