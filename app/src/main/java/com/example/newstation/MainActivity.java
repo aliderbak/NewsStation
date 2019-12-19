@@ -22,7 +22,6 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-
 import com.example.newstation.ui.main.SectionsPagerAdapter;
 
 import java.util.List;
@@ -38,17 +37,12 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         //For API
-
-
-
 
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
@@ -67,40 +61,40 @@ public class MainActivity extends AppCompatActivity {
         tabs.getTabAt(0).setCustomView(R.layout.notification_badge);
         final TextView textView = (TextView) tabs.getTabAt(0).getCustomView().findViewById(R.id.textBadge);
         textView.setText("5");
-        ImageView imageView = (ImageView)tabs.getTabAt(0).getCustomView().findViewById(R.id.iconBadge);
+        ImageView imageView = (ImageView) tabs.getTabAt(0).getCustomView().findViewById(R.id.iconBadge);
         imageView.setImageResource(R.drawable.ic_newspaper);
 
         tabs.getTabAt(1).setCustomView(R.layout.notification_badge);
         TextView textView1 = (TextView) tabs.getTabAt(1).getCustomView().findViewById(R.id.textBadge);
         textView1.setText("99");
-        ImageView imageView1 = (ImageView)tabs.getTabAt(1).getCustomView().findViewById(R.id.iconBadge);
+        ImageView imageView1 = (ImageView) tabs.getTabAt(1).getCustomView().findViewById(R.id.iconBadge);
         imageView1.setImageResource(R.drawable.ic_bars);
 
         tabs.getTabAt(2).setCustomView(R.layout.notification_badge);
         TextView textView2 = (TextView) tabs.getTabAt(2).getCustomView().findViewById(R.id.textBadge);
         textView2.setText("35");
-        ImageView imageView2 = (ImageView)tabs.getTabAt(2).getCustomView().findViewById(R.id.iconBadge);
+        ImageView imageView2 = (ImageView) tabs.getTabAt(2).getCustomView().findViewById(R.id.iconBadge);
         imageView2.setImageResource(R.drawable.ic_soccer_ball_variant);
 
         tabs.getTabAt(3).setCustomView(R.layout.notification_badge);
         final TextView textView3 = (TextView) tabs.getTabAt(3).getCustomView().findViewById(R.id.textBadge);
         textView3.setText("13");
-        ImageView imageView3 = (ImageView)tabs.getTabAt(3).getCustomView().findViewById(R.id.iconBadge);
+        ImageView imageView3 = (ImageView) tabs.getTabAt(3).getCustomView().findViewById(R.id.iconBadge);
         imageView3.setImageResource(R.drawable.ic_cloudy_day);
 
 
-        tabs.addOnTabSelectedListener( new TabLayout.OnTabSelectedListener(){
+        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab){
+            public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
-                final TextView textView4 =(TextView)tabs.getTabAt(position).getCustomView().findViewById(R.id.textBadge);
+                final TextView textView4 = (TextView) tabs.getTabAt(position).getCustomView().findViewById(R.id.textBadge);
                 textView4.setVisibility(View.GONE);
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
-                final TextView textView5 =(TextView)tabs.getTabAt(position).getCustomView().findViewById(R.id.textBadge);
+                final TextView textView5 = (TextView) tabs.getTabAt(position).getCustomView().findViewById(R.id.textBadge);
                 textView5.setVisibility(View.VISIBLE);
 
             }
@@ -110,12 +104,5 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-
-
     }
-
-
 }

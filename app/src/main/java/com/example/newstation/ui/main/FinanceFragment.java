@@ -11,6 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.newstation.R;
+import com.example.newstation.ui.main.Items;
+import com.example.newstation.ui.main.PageViewModel;
+import com.example.newstation.ui.main.listAdapter;
 
 import java.util.ArrayList;
 

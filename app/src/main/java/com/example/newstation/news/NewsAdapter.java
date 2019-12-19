@@ -22,10 +22,15 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
         this.articleArrayList=articleArrayList;
         //this.context=context;
     }
+    public  NewsAdapter(){}
     @Override
     public NewsAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i){
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recrow,viewGroup,false);
         return new NewsAdapter.ViewHolder(view);
+    }
+    public void setData(List<ArticleNews> articleArrayList){
+        this.articleArrayList=articleArrayList;
+        //this.context=context;
     }
 
     @Override
