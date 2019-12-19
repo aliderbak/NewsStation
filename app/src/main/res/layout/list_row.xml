@@ -17,11 +17,6 @@
         android:gravity="center"
         android:padding="4dp">
 
-        <ImageView
-            android:id="@+id/galleryImage"
-            android:layout_width="70dp"
-            android:layout_height="50dp"
-            />
     </LinearLayout>
 
 
@@ -32,19 +27,25 @@
         android:orientation="vertical"
         android:layout_weight="7"
         >
+
+        <ImageView
+            android:id="@+id/galleryImage"
+            android:layout_width="match_parent"
+            android:layout_height="240dp" />
+
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:shadowColor="#000"
-            android:shadowRadius="1.0"
-            android:textColor="#666666"
-            android:textSize="17sp"
             android:layout_marginBottom="5dp"
+            android:ellipsize="end"
             android:maxLines="2"
             android:scrollHorizontally="true"
-            android:ellipsize="end"
-            android:text="This is news title"/>
+            android:shadowColor="#000"
+            android:shadowRadius="1.0"
+            android:text="This is news title"
+            android:textColor="#666666"
+            android:textSize="17sp" />
 
         <TextView
             android:id="@+id/sdetails"
@@ -57,7 +58,6 @@
             android:scrollHorizontally="true"
             android:ellipsize="end"
             android:text="This is news description bla bla bla..."/>
-
 
 
         <LinearLayout

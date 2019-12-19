@@ -1,8 +1,10 @@
 package com.example.newstation.ui.main;
 
 import android.content.Context;
+import android.os.Build;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -17,7 +19,7 @@ import com.example.newstation.R;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.news, R.string.finance,R.string.sport,R.string.weather};
+    private static final int[] TAB_TITLES = new int[]{R.string.news, R.string.finance,R.string.sport};
     private final Context mContext;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
@@ -25,6 +27,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         mContext = context;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
@@ -36,8 +39,8 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
                 return FinanceFragment.newInstance();
             case 2:
                 return SportsFragment.newInstance();
-            case 3:
-                return WeatherFragment.newInstance();
+            //case 3:
+                //return WeatherFragment.newInstance();
             default:
                 return null;
         }
@@ -53,6 +56,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         // Show 4 total pages.
-        return 4;
+        return 3;
     }
 }

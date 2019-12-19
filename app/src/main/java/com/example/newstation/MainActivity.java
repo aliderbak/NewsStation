@@ -76,11 +76,11 @@ public class MainActivity extends AppCompatActivity {
         ImageView imageView2 = (ImageView) tabs.getTabAt(2).getCustomView().findViewById(R.id.iconBadge);
         imageView2.setImageResource(R.drawable.ic_soccer_ball_variant);
 
-        tabs.getTabAt(3).setCustomView(R.layout.notification_badge);
-        final TextView textView3 = (TextView) tabs.getTabAt(3).getCustomView().findViewById(R.id.textBadge);
-        textView3.setText("13");
-        ImageView imageView3 = (ImageView) tabs.getTabAt(3).getCustomView().findViewById(R.id.iconBadge);
-        imageView3.setImageResource(R.drawable.ic_cloudy_day);
+//        tabs.getTabAt(3).setCustomView(R.layout.notification_badge);
+//        final TextView textView3 = (TextView) tabs.getTabAt(3).getCustomView().findViewById(R.id.textBadge);
+//        textView3.setText("13");
+//        ImageView imageView3 = (ImageView) tabs.getTabAt(3).getCustomView().findViewById(R.id.iconBadge);
+//        imageView3.setImageResource(R.drawable.ic_cloudy_day);
 
 
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
