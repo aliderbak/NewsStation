@@ -35,6 +35,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static com.example.newstation.MainActivity.textView1;
+
 public class FinanceFragment extends Fragment {
     private static final String TAG = "Finance";
 
@@ -122,6 +124,8 @@ public class FinanceFragment extends Fragment {
                 try {
                     JSONObject jsonResponse = new JSONObject(xml);
                     JSONArray jsonArray = jsonResponse.optJSONArray("articles");
+                    String num = ""+jsonArray.length()+"";
+                    textView1.setText(num);
 
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);

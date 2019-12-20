@@ -22,6 +22,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.newstation.R;
+import com.example.newstation.database.AppDatabase;
+import com.example.newstation.database.SportTable;
 import com.example.newstation.news.Function;
 import com.example.newstation.news.ListNewsAdapter;
 import com.example.newstation.sport.ListSportAdapter;
@@ -32,6 +34,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static com.example.newstation.MainActivity.textView2;
 
 public class SportsFragment extends Fragment {
 
@@ -51,6 +55,7 @@ public class SportsFragment extends Fragment {
     public static final String KEY_URL = "url";
     public static final String KEY_URLTOIMAGE = "urlToImage";
     public static final String KEY_PUBLISHEDAT = "publishedAt";
+    AppDatabase database;
 
     private static final String TAG = "Sport";
 
@@ -68,6 +73,7 @@ public class SportsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
         pageViewModel.setIndex(TAG);
+        database = AppDatabase.getDatabaseInstance(getActivity().getBaseContext());
     }
 
     @Override
@@ -88,8 +94,10 @@ public class SportsFragment extends Fragment {
 
 
         if (Function.isNetworkAvailable(getActivity().getBaseContext())) {
+            AppDatabase.destroyInstance();
             DownloadNews newTask = new DownloadNews();
             newTask.execute();
+
         } else {
             Toast.makeText(getActivity().getBaseContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
         }
@@ -116,6 +124,7 @@ public class SportsFragment extends Fragment {
                 try {
                     JSONObject jsonResponse = new JSONObject(xml);
                     JSONArray jsonArray = jsonResponse.optJSONArray("articles");
+                    textView2.setText(""+jsonArray.length()+"");
 
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -127,6 +136,13 @@ public class SportsFragment extends Fragment {
                         map.put(KEY_URLTOIMAGE, jsonObject.optString(KEY_URLTOIMAGE));
                         map.put(KEY_PUBLISHEDAT, jsonObject.optString(KEY_PUBLISHEDAT));
                         dataList.add(map);
+
+                        //Database
+                        //////////////
+                        SportTable sportTable = new SportTable(KEY_AUTHOR,KEY_TITLE,KEY_DESCRIPTION,KEY_URL,KEY_URLTOIMAGE,KEY_PUBLISHEDAT);
+                        database.sportDao().insertOne(sportTable);
+
+
                     }
                 } catch (JSONException e) {
                     Toast.makeText(getActivity().getBaseContext(), "Unexpected error", Toast.LENGTH_SHORT).show();

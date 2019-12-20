@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import com.example.newstation.R;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.example.newstation.MainActivity.textView3;
+
 public class NewsFragment extends Fragment {
     //private static final String API_KEY="ff8c03c87d0048fb8ce9209c6239d52c";
     RecyclerView recyclerView;
@@ -57,7 +60,7 @@ public class NewsFragment extends Fragment {
     private listAdapter ListAdapter;
     private Context context;
     private static final String TAG = "News";
-
+public static  int totalResult = 0;
 
     /////////////////////
     String API_KEY = "ff8c03c87d0048fb8ce9209c6239d52c"; // ### YOUE NEWS API HERE ###
@@ -189,6 +192,9 @@ View view =  inflater.inflate(R.layout.fragment_main, container, false);
                     try {
                         JSONObject jsonResponse = new JSONObject(xml);
                         JSONArray jsonArray = jsonResponse.optJSONArray("articles");
+                        totalResult = jsonArray.length();
+                        String num = ""+totalResult+"";
+                        textView3.setText(num);
 
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -211,9 +217,9 @@ View view =  inflater.inflate(R.layout.fragment_main, container, false);
                     listNews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         public void onItemClick(AdapterView<?> parent, View view,
                                                 int position, long id) {
-//                            Intent i = new Intent(MainActivity.this, DetailsActivity.class);
-//                            i.putExtra("url", dataList.get(+position).get(KEY_URL));
-//                            startActivity(i);
+//                           Intent i = new Intent(getContext(),DetailsActivity.class);
+//                         i.putExtra("url", dataList.get(+position).get(KEY_URL));
+//                          startActivity(i);
                         }
                     });
 
