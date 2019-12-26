@@ -1,8 +1,10 @@
 package com.example.newstation.ui.main;
 
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +28,7 @@ import com.example.newstation.database.AppDatabase;
 import com.example.newstation.database.SportTable;
 import com.example.newstation.news.Function;
 import com.example.newstation.news.ListNewsAdapter;
+import com.example.newstation.sport.ListRoomSportAdapter;
 import com.example.newstation.sport.ListSportAdapter;
 
 import org.json.JSONArray;
@@ -33,7 +36,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.example.newstation.MainActivity.textView2;
 
@@ -94,30 +100,67 @@ public class SportsFragment extends Fragment {
 
 
         if (Function.isNetworkAvailable(getActivity().getBaseContext())) {
-            AppDatabase.destroyInstance();
+
             DownloadNews newTask = new DownloadNews();
             newTask.execute();
 
-        } else {
-            Toast.makeText(getActivity().getBaseContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+      }
+        ////////////////////////////////////////////////
+      else {
+          getDatafromDatabase newTask = new getDatafromDatabase();
+          newTask.execute();
         }
-
+//
+//            Cursor cursor = database.query("SELECT * FROM sport",null);
+//            if (cursor.moveToFirst()){
+//                 while (cursor.moveToNext()) {
+//                     HashMap<String, String> map = new HashMap<>();
+//                     map.put(KEY_AUTHOR, cursor.getString(cursor.getColumnIndex(KEY_AUTHOR)));
+//                     map.put(KEY_TITLE, cursor.getString(cursor.getColumnIndex(KEY_TITLE)));
+//                     map.put(KEY_DESCRIPTION, cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)));
+//                     map.put(KEY_URL, cursor.getString(cursor.getColumnIndex(KEY_URL)));
+//                     map.put(KEY_URLTOIMAGE, cursor.getString(cursor.getColumnIndex(KEY_URLTOIMAGE)));
+//                     map.put(KEY_PUBLISHEDAT, cursor.getString(cursor.getColumnIndex("publisherAt")));
+//                     dataList.add(map);
+//                     Log.e("List8", cursor.getString(cursor.getColumnIndex(KEY_TITLE)));
+//                 }
+//            }
+//
+//
+//
+////             List<SportTable> all = database.sportDao().getAll();
+////             if(all.size()>1){
+////
+////                 Toast.makeText(getActivity().getBaseContext(), "Done", Toast.LENGTH_LONG).show();
+////             }
+////             else
+////            Toast.makeText(getActivity().getBaseContext(), "failed", Toast.LENGTH_LONG).show();
+//        }
+//        ListSportAdapter adapter = new ListSportAdapter(SportsFragment.this, dataList);
+//
+//        listNews.setAdapter(adapter);
+//////////////////////////////////////////////////
 
 
     }
     class DownloadNews extends AsyncTask<String, Void, String> {
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
 
         protected String doInBackground(String... args) {
+
             String xml = Function.excuteGet("https://newsapi.org/v2/top-headlines?country=" + COUNTRY + "&category=" + category + "&sortBy=top&apiKey=" + API_KEY);
             return xml;
         }
 
         @Override
         protected void onPostExecute(String xml) {
+            AppDatabase.destroyInstance();
+            dataList.clear();
+
 
             if (xml.length() > 10) { // Just checking if not empty
 
@@ -125,6 +168,7 @@ public class SportsFragment extends Fragment {
                     JSONObject jsonResponse = new JSONObject(xml);
                     JSONArray jsonArray = jsonResponse.optJSONArray("articles");
                     textView2.setText(""+jsonArray.length()+"");
+
 
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -139,7 +183,9 @@ public class SportsFragment extends Fragment {
 
                         //Database
                         //////////////
-                        SportTable sportTable = new SportTable(KEY_AUTHOR,KEY_TITLE,KEY_DESCRIPTION,KEY_URL,KEY_URLTOIMAGE,KEY_PUBLISHEDAT);
+                        SportTable sportTable = new SportTable(jsonObject.optString(KEY_AUTHOR),jsonObject.optString(KEY_TITLE)
+                                ,jsonObject.optString(KEY_DESCRIPTION),jsonObject.optString(KEY_URL)
+                                ,jsonObject.optString(KEY_URLTOIMAGE),jsonObject.optString(KEY_PUBLISHEDAT),"sports");
                         database.sportDao().insertOne(sportTable);
 
 
@@ -163,6 +209,53 @@ public class SportsFragment extends Fragment {
             } else {
                 Toast.makeText(getActivity().getBaseContext(), "No news found", Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    class getDatafromDatabase extends AsyncTask<ArrayList,Void,ArrayList>{
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dataList.clear();
+        }
+        @Override
+        protected ArrayList doInBackground(ArrayList... lists) {
+
+            Cursor cursor = database.query("SELECT * FROM sport WHERE tag = 'sports'",null);
+
+            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                HashMap<String, String> map = new HashMap<>();
+                map.put(KEY_AUTHOR, cursor.getString(cursor.getColumnIndex(KEY_AUTHOR)));
+                map.put(KEY_TITLE, cursor.getString(cursor.getColumnIndex(KEY_TITLE)));
+                map.put(KEY_DESCRIPTION, cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)));
+                map.put(KEY_URL, cursor.getString(cursor.getColumnIndex(KEY_URL)));
+                map.put(KEY_URLTOIMAGE, cursor.getString(cursor.getColumnIndex(KEY_URLTOIMAGE)));
+                map.put(KEY_PUBLISHEDAT, cursor.getString(cursor.getColumnIndex("publisherAt")));
+
+                Log.e("List8", cursor.getString(cursor.getColumnIndex(KEY_TITLE)));
+                Log.e("Adet", String.valueOf(cursor.getCount()));
+                dataList.add(map);
+
+            }
+            cursor.close();
+
+            return dataList;
+
+
+        }
+        //@RequiresApi(api = Build.VERSION_CODES.N)
+        @Override
+        protected void onPostExecute(ArrayList d){
+
+            Log.e("ArraySize", String.valueOf(d.size()));
+            //ArrayList<HashMap<String,String>> da = (ArrayList<HashMap<String,String>>) d.stream().limit(20).collect(Collectors.toList());
+
+           // Log.e("ArraySize", String.valueOf(da.size()));
+            ListSportAdapter adapter = new ListSportAdapter(SportsFragment.this, d);
+
+            listNews.setAdapter(adapter);
+
         }
     }
 

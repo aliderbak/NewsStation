@@ -5,19 +5,15 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-import java.util.HashMap;
-
-@Entity(tableName = "sport")
+@Entity(tableName = "news")
 @TypeConverters({DateConverter.class})
-public class SportTable  {
+public class NewsTable {
     @PrimaryKey(autoGenerate = true)
     private int uid;
     @ColumnInfo(name = "author")
     private String mAuthor;
     @ColumnInfo(name = "title")
     private String mTitle;
-    @ColumnInfo(name = "tag")
-    private String mTag;
     @ColumnInfo(name = "description")
     private String mDescription;
     @ColumnInfo(name = "url")
@@ -27,16 +23,14 @@ public class SportTable  {
     @ColumnInfo(name = "publisherAt")
     private String mPublisherAt;
 
-    public SportTable (String mAuthor, String mTitle, String mDescription, String mUrl, String mUrlToImage,String mPublisherAt,String mTag){
+    public NewsTable(String mAuthor, String mTitle, String mDescription, String mUrl, String mUrlToImage,String mPublisherAt){
         this.mAuthor = mAuthor;
-        this.mTag=mTag;
         this.mDescription = mDescription;
         this.mPublisherAt  = mPublisherAt;
         this.mUrl = mUrl;
         this.mUrlToImage = mUrlToImage;
         this.mTitle = mTitle;
     }
-
     public String getPublisherAt() {
         return mPublisherAt;
     }
@@ -93,11 +87,4 @@ public class SportTable  {
         this.uid = uid;
     }
 
-    public String getTag() {
-        return mTag;
-    }
-
-    public void setTag(String mTag) {
-        this.mTag = mTag;
-    }
 }
