@@ -1,13 +1,12 @@
 package com.example.newstation.ui.main;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import com.example.newstation.R;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,25 +20,14 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
-import com.example.newstation.MainActivity;
 import com.example.newstation.R;
 import com.example.newstation.database.AppDatabase;
-import com.example.newstation.database.NewsTable;
 import com.example.newstation.database.SportTable;
-import com.example.newstation.news.APIInterfaceNews;
-import com.example.newstation.news.ApiClient;
-import com.example.newstation.news.ArticleNews;
-import com.example.newstation.news.DetailsActivity;
 import com.example.newstation.news.Function;
 import com.example.newstation.news.ListNewsAdapter;
 import com.example.newstation.news.NewsAdapter;
-import com.example.newstation.news.ResponseModelNews;
-import com.example.newstation.sport.ListSportAdapter;
-import com.example.newstation.ui.main.Movie;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,14 +35,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
-import io.reactivex.Scheduler;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import static com.example.newstation.MainActivity.textView3;
 
@@ -101,6 +81,7 @@ AppDatabase database;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        database = AppDatabase.getDatabaseInstance(getActivity().getBaseContext());
 
         // For API
         pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
@@ -130,8 +111,8 @@ View view =  inflater.inflate(R.layout.fragment_main, container, false);
             DownloadNews newsTask = new DownloadNews();
             newsTask.execute();
         } else {
-            //getDatafromDatabase newTask = new getDatafromDatabase();
-           // newTask.execute();
+            getDatafromDatabase newTask = new getDatafromDatabase();
+           newTask.execute();
             //Toast.makeText(getActivity().getBaseContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
         }
 
@@ -194,7 +175,7 @@ View view =  inflater.inflate(R.layout.fragment_main, container, false);
 
             @Override
             protected void onPostExecute(String xml) {
-                AppDatabase.destroyInstance();
+               // AppDatabase.destroyInstance();
                 dataList.clear();
 
                 if (xml.length() > 10) { // Just checking if not empty
@@ -219,10 +200,18 @@ View view =  inflater.inflate(R.layout.fragment_main, container, false);
 
                             //Database
                             //////////////
+
                             SportTable sportTable = new SportTable(jsonObject.optString(KEY_AUTHOR),jsonObject.optString(KEY_TITLE)
                                     ,jsonObject.optString(KEY_DESCRIPTION),jsonObject.optString(KEY_URL)
                                     ,jsonObject.optString(KEY_URLTOIMAGE),jsonObject.optString(KEY_PUBLISHEDAT),"news");
-                            database.sportDao().insertOne(sportTable);
+
+                            try{
+                                database.sportDao().insertOne(sportTable);
+                            }
+                            catch (SQLiteConstraintException e){
+                                Log.e("Insert problem",e.toString());
+                            }
+
                         }
                     } catch (JSONException e) {
                         Toast.makeText(getActivity().getBaseContext(), "Unexpected error", Toast.LENGTH_SHORT).show();
@@ -256,7 +245,7 @@ View view =  inflater.inflate(R.layout.fragment_main, container, false);
         @Override
         protected ArrayList doInBackground(ArrayList... lists) {
 
-            Cursor cursor = database.query("SELECT * FROM sport WHERE tag = 'news'",null);
+            Cursor cursor = database.query("SELECT  * FROM sport WHERE tag = 'news'",null);
 
             for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
                 HashMap<String, String> map = new HashMap<>();

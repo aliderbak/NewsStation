@@ -2,12 +2,16 @@ package com.example.newstation.database;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
 import java.util.HashMap;
 
-@Entity(tableName = "sport")
+//@Entity(tableName = "sport" )
+@Entity(tableName ="sport", indices = {@Index(value = "author"),@Index(value = "title" , unique = true),
+                                                                 @Index(value = "tag"),@Index(value = "description"),@Index(value = "url")
+                                                                  ,@Index(value = "urlToImage"),@Index(value = "publisherAt")})
 @TypeConverters({DateConverter.class})
 public class SportTable  {
     @PrimaryKey(autoGenerate = true)
@@ -17,6 +21,7 @@ public class SportTable  {
     @ColumnInfo(name = "title")
     private String mTitle;
     @ColumnInfo(name = "tag")
+
     private String mTag;
     @ColumnInfo(name = "description")
     private String mDescription;

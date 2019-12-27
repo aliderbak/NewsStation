@@ -1,6 +1,7 @@
 package com.example.newstation;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -8,7 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.newstation.database.AppDatabase;
 import com.example.newstation.news.ArticleNews;
+import com.example.newstation.news.Function;
 import com.example.newstation.news.ResponseModelNews;
 import com.example.newstation.ui.main.ApiClient;
 import com.example.newstation.news.APIInterfaceNews;
@@ -19,6 +22,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
+import androidx.annotation.RequiresApi;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -33,6 +37,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
+    AppDatabase database;
     private BadgeDrawable badge;
     private final static String API_KEY = "ff8c03c87d0048fb8ce9209c6239d52c";
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -40,10 +45,17 @@ public class MainActivity extends AppCompatActivity {
     public  static TextView textView2;
 
    public static TextView textView1;
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        if(Function.isNetworkAvailable(getApplicationContext())){
+            database = AppDatabase.getDatabaseInstance(getApplicationContext());
+            AppDatabase.destroyInstance();
+        }
 
         //For API
 

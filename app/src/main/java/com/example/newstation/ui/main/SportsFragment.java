@@ -1,6 +1,8 @@
 package com.example.newstation.ui.main;
 
 import android.database.Cursor;
+import android.database.sqlite.SQLiteBindOrColumnIndexOutOfRangeException;
+import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -158,7 +160,7 @@ public class SportsFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String xml) {
-            AppDatabase.destroyInstance();
+            //AppDatabase.destroyInstance();
             dataList.clear();
 
 
@@ -186,7 +188,12 @@ public class SportsFragment extends Fragment {
                         SportTable sportTable = new SportTable(jsonObject.optString(KEY_AUTHOR),jsonObject.optString(KEY_TITLE)
                                 ,jsonObject.optString(KEY_DESCRIPTION),jsonObject.optString(KEY_URL)
                                 ,jsonObject.optString(KEY_URLTOIMAGE),jsonObject.optString(KEY_PUBLISHEDAT),"sports");
-                        database.sportDao().insertOne(sportTable);
+                        try {
+                            database.sportDao().insertOne(sportTable);
+                        }
+                        catch (SQLiteConstraintException e){
+                            Log.e("SQL",e.toString());
+                        }
 
 
                     }

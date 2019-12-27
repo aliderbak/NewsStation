@@ -13,7 +13,7 @@ import com.example.newstation.ui.main.SportsFragment;
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase mInstance;
     private static final String DATABASE_NAME = "news_database";
-   // public abstract NewsDao newsDao();
+
     public abstract SportDao sportDao();
 
     public synchronized static AppDatabase getDatabaseInstance(Context context){
