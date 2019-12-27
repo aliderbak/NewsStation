@@ -1,5 +1,6 @@
 package com.example.newstation.ui.main;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,7 +22,9 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.newstation.MainActivity;
 import com.example.newstation.R;
+import com.example.newstation.news.DetailsActivity;
 import com.example.newstation.news.Function;
 import com.example.newstation.news.ListNewsAdapter;
 import com.example.newstation.weather.ListWeatherAdapter;
@@ -135,7 +138,7 @@ public class WeatherFragment extends Fragment {
                 listNews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     public void onItemClick(AdapterView<?> parent, View view,
                                             int position, long id) {
-//                            Intent i = new Intent(MainActivity.this, DetailsActivity.class);
+                      //Intent i = new Intent(getActivity(),DetailsActivity.class);
 //                            i.putExtra("url", dataList.get(+position).get(KEY_URL));
 //                            startActivity(i);
                     }

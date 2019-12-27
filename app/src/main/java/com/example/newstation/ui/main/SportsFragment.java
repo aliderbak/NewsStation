@@ -1,5 +1,6 @@
 package com.example.newstation.ui.main;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
@@ -24,7 +25,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.newstation.R;
 import com.example.newstation.database.AppDatabase;
 import com.example.newstation.database.SportTable;
+import com.example.newstation.news.DetailsActivity;
 import com.example.newstation.news.Function;
+import com.example.newstation.sport.DetailsActivitySport;
 import com.example.newstation.sport.ListSportAdapter;
 
 import org.json.JSONArray;
@@ -168,9 +171,9 @@ public class SportsFragment extends Fragment {
                 listNews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     public void onItemClick(AdapterView<?> parent, View view,
                                             int position, long id) {
-//                            Intent i = new Intent(MainActivity.this, DetailsActivity.class);
-//                            i.putExtra("url", dataList.get(+position).get(KEY_URL));
-//                            startActivity(i);
+                           Intent i = new Intent(getActivity(), DetailsActivity.class);
+                          i.putExtra("url", dataList.get(+position).get(KEY_URL));
+                         startActivity(i);
                     }
                 });
 
@@ -222,6 +225,13 @@ public class SportsFragment extends Fragment {
             ListSportAdapter adapter = new ListSportAdapter(SportsFragment.this, d);
 
             listNews.setAdapter(adapter);
+            listNews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        int position, long id) {
+
+                    Toast.makeText(getActivity().getBaseContext(), "İnternet bağlantısı yok", Toast.LENGTH_SHORT).show();
+                }
+            });
 
         }
     }
