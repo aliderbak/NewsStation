@@ -1,40 +1,21 @@
 package com.example.newstation;
 
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.example.newstation.database.AppDatabase;
-import com.example.newstation.news.ArticleNews;
-import com.example.newstation.news.Function;
-import com.example.newstation.news.ResponseModelNews;
-import com.example.newstation.ui.main.ApiClient;
-import com.example.newstation.news.APIInterfaceNews;
-import com.example.newstation.ui.main.Movie;
-import com.example.newstation.ui.main.MovieResponse;
-import com.example.newstation.ui.main.NewsFragment;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.RequiresApi;
-import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
-
+import com.example.newstation.database.AppDatabase;
+import com.example.newstation.news.Function;
 import com.example.newstation.ui.main.SectionsPagerAdapter;
-
-import java.util.List;
+import com.google.android.material.tabs.TabLayout;
 
 import berlin.volders.badger.BadgeDrawable;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     AppDatabase database;
@@ -42,9 +23,10 @@ public class MainActivity extends AppCompatActivity {
     private final static String API_KEY = "ff8c03c87d0048fb8ce9209c6239d52c";
     private static final String TAG = MainActivity.class.getSimpleName();
     public static TextView textView3;
-    public  static TextView textView2;
+    public static TextView textView2;
 
-   public static TextView textView1;
+    public static TextView textView1;
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        if(Function.isNetworkAvailable(getApplicationContext())){
+        if (Function.isNetworkAvailable(getApplicationContext())) {
             database = AppDatabase.getDatabaseInstance(getApplicationContext());
             AppDatabase.destroyInstance();
         }
@@ -68,19 +50,16 @@ public class MainActivity extends AppCompatActivity {
         final TabLayout tabs = findViewById(R.id.tabs);
 
         tabs.setupWithViewPager(viewPager);
-        //tabs.getTabAt(0).setIcon(R.drawable.ic_newspaper);
-        //tabs.getTabAt(1).setIcon(R.drawable.ic_bars);
-        //tabs.getTabAt(2).setIcon(R.drawable.ic_soccer_ball_variant);
-        //tabs.getTabAt(3).setIcon(R.drawable.ic_cloudy_day);
+
 
         tabs.getTabAt(0).setCustomView(R.layout.notification_badge);
-         textView3 = (TextView) tabs.getTabAt(0).getCustomView().findViewById(R.id.textBadge);
+        textView3 = (TextView) tabs.getTabAt(0).getCustomView().findViewById(R.id.textBadge);
         textView3.setText("0");
         ImageView imageView = (ImageView) tabs.getTabAt(0).getCustomView().findViewById(R.id.iconBadge);
         imageView.setImageResource(R.drawable.ic_newspaper);
 
         tabs.getTabAt(1).setCustomView(R.layout.notification_badge);
-         textView1 = (TextView) tabs.getTabAt(1).getCustomView().findViewById(R.id.textBadge);
+        textView1 = (TextView) tabs.getTabAt(1).getCustomView().findViewById(R.id.textBadge);
         textView1.setText("0");
         ImageView imageView1 = (ImageView) tabs.getTabAt(1).getCustomView().findViewById(R.id.iconBadge);
         imageView1.setImageResource(R.drawable.ic_bars);
@@ -111,11 +90,10 @@ public class MainActivity extends AppCompatActivity {
             public void onTabUnselected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
                 final TextView textView5 = (TextView) tabs.getTabAt(position).getCustomView().findViewById(R.id.textBadge);
-                if (textView5.getText().equals("0")){
+                if (textView5.getText().equals("0")) {
                     textView5.setVisibility(View.GONE);
-                }
-                else
-                textView5.setVisibility(View.VISIBLE);
+                } else
+                    textView5.setVisibility(View.VISIBLE);
 
             }
 

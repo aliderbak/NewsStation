@@ -1,6 +1,5 @@
 package com.example.newstation.ui.main;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
@@ -20,7 +19,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.newstation.R;
@@ -28,10 +26,6 @@ import com.example.newstation.database.AppDatabase;
 import com.example.newstation.database.SportTable;
 import com.example.newstation.finance.ListFinanceAdapter;
 import com.example.newstation.news.Function;
-import com.example.newstation.news.ListNewsAdapter;
-import com.example.newstation.ui.main.Items;
-import com.example.newstation.ui.main.PageViewModel;
-import com.example.newstation.ui.main.listAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,7 +43,7 @@ public class FinanceFragment extends Fragment {
     RecyclerView recyclerView;
     ArrayList<Items> items;
     private listAdapter ListAdapter;
-AppDatabase database;
+    AppDatabase database;
 
 
     /////////////////////
@@ -69,7 +63,7 @@ AppDatabase database;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public FinanceFragment() {
-        // Required empty public constructor
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -89,16 +83,16 @@ AppDatabase database;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_main, container, false);
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
         listNews = (ListView) view.findViewById(R.id.listNews);
 
         return view;
     }
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
 
 
         if (Function.isNetworkAvailable(getActivity().getBaseContext())) {
@@ -111,8 +105,8 @@ AppDatabase database;
         }
 
 
-
     }
+
     class DownloadNews extends AsyncTask<String, Void, String> {
         @Override
         protected void onPreExecute() {
@@ -133,7 +127,7 @@ AppDatabase database;
                 try {
                     JSONObject jsonResponse = new JSONObject(xml);
                     JSONArray jsonArray = jsonResponse.optJSONArray("articles");
-                    String num = ""+jsonArray.length()+"";
+                    String num = "" + jsonArray.length() + "";
                     textView1.setText(num);
 
                     for (int i = 0; i < jsonArray.length(); i++) {
@@ -147,14 +141,13 @@ AppDatabase database;
                         map.put(KEY_PUBLISHEDAT, jsonObject.optString(KEY_PUBLISHEDAT));
                         dataList.add(map);
 
-                        SportTable sportTable = new SportTable(jsonObject.optString(KEY_AUTHOR),jsonObject.optString(KEY_TITLE)
-                                ,jsonObject.optString(KEY_DESCRIPTION),jsonObject.optString(KEY_URL)
-                                ,jsonObject.optString(KEY_URLTOIMAGE),jsonObject.optString(KEY_PUBLISHEDAT),"finance");
-                        try{
+                        SportTable sportTable = new SportTable(jsonObject.optString(KEY_AUTHOR), jsonObject.optString(KEY_TITLE)
+                                , jsonObject.optString(KEY_DESCRIPTION), jsonObject.optString(KEY_URL)
+                                , jsonObject.optString(KEY_URLTOIMAGE), jsonObject.optString(KEY_PUBLISHEDAT), "finance");
+                        try {
                             database.sportDao().insertOne(sportTable);
-                        }
-                        catch (SQLiteConstraintException e){
-                            Log.e("Insert problem",e.toString());
+                        } catch (SQLiteConstraintException e) {
+                            Log.e("Insert problem", e.toString());
                         }
                     }
                 } catch (JSONException e) {
@@ -179,17 +172,18 @@ AppDatabase database;
         }
     }
 
-    class getDatafromDatabase extends AsyncTask<ArrayList,Void,ArrayList>{
+    class getDatafromDatabase extends AsyncTask<ArrayList, Void, ArrayList> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             dataList.clear();
         }
+
         @Override
         protected ArrayList doInBackground(ArrayList... lists) {
 
-            Cursor cursor = database.query("SELECT  * FROM sport WHERE tag = 'finance'",null);
+            Cursor cursor = database.query("SELECT  * FROM sport WHERE tag = 'finance'", null);
 
             for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
                 HashMap<String, String> map = new HashMap<>();
@@ -211,14 +205,13 @@ AppDatabase database;
 
 
         }
-        //@RequiresApi(api = Build.VERSION_CODES.N)
+
+
         @Override
-        protected void onPostExecute(ArrayList d){
+        protected void onPostExecute(ArrayList d) {
 
             Log.e("ArraySize", String.valueOf(d.size()));
-            //ArrayList<HashMap<String,String>> da = (ArrayList<HashMap<String,String>>) d.stream().limit(20).collect(Collectors.toList());
 
-            // Log.e("ArraySize", String.valueOf(da.size()));
             ListFinanceAdapter adapter = new ListFinanceAdapter(FinanceFragment.this, d);
 
             listNews.setAdapter(adapter);

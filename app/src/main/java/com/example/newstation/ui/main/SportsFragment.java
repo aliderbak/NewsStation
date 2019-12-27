@@ -1,7 +1,6 @@
 package com.example.newstation.ui.main;
 
 import android.database.Cursor;
-import android.database.sqlite.SQLiteBindOrColumnIndexOutOfRangeException;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -13,24 +12,19 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.newstation.R;
 import com.example.newstation.database.AppDatabase;
 import com.example.newstation.database.SportTable;
 import com.example.newstation.news.Function;
-import com.example.newstation.news.ListNewsAdapter;
-import com.example.newstation.sport.ListRoomSportAdapter;
 import com.example.newstation.sport.ListSportAdapter;
 
 import org.json.JSONArray;
@@ -38,10 +32,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.example.newstation.MainActivity.textView2;
 
@@ -68,6 +59,7 @@ public class SportsFragment extends Fragment {
     private static final String TAG = "Sport";
 
     private PageViewModel pageViewModel;
+
     public SportsFragment() {
         // Required empty public constructor
     }
@@ -88,7 +80,7 @@ public class SportsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_main, container, false);
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
         listNews = (ListView) view.findViewById(R.id.listNews);
 
         return view;
@@ -100,51 +92,23 @@ public class SportsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-
         if (Function.isNetworkAvailable(getActivity().getBaseContext())) {
 
             DownloadNews newTask = new DownloadNews();
             newTask.execute();
 
-      }
-        ////////////////////////////////////////////////
-      else {
-          getDatafromDatabase newTask = new getDatafromDatabase();
-          newTask.execute();
         }
-//
-//            Cursor cursor = database.query("SELECT * FROM sport",null);
-//            if (cursor.moveToFirst()){
-//                 while (cursor.moveToNext()) {
-//                     HashMap<String, String> map = new HashMap<>();
-//                     map.put(KEY_AUTHOR, cursor.getString(cursor.getColumnIndex(KEY_AUTHOR)));
-//                     map.put(KEY_TITLE, cursor.getString(cursor.getColumnIndex(KEY_TITLE)));
-//                     map.put(KEY_DESCRIPTION, cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)));
-//                     map.put(KEY_URL, cursor.getString(cursor.getColumnIndex(KEY_URL)));
-//                     map.put(KEY_URLTOIMAGE, cursor.getString(cursor.getColumnIndex(KEY_URLTOIMAGE)));
-//                     map.put(KEY_PUBLISHEDAT, cursor.getString(cursor.getColumnIndex("publisherAt")));
-//                     dataList.add(map);
-//                     Log.e("List8", cursor.getString(cursor.getColumnIndex(KEY_TITLE)));
-//                 }
-//            }
-//
-//
-//
-////             List<SportTable> all = database.sportDao().getAll();
-////             if(all.size()>1){
-////
-////                 Toast.makeText(getActivity().getBaseContext(), "Done", Toast.LENGTH_LONG).show();
-////             }
-////             else
-////            Toast.makeText(getActivity().getBaseContext(), "failed", Toast.LENGTH_LONG).show();
-//        }
-//        ListSportAdapter adapter = new ListSportAdapter(SportsFragment.this, dataList);
-//
-//        listNews.setAdapter(adapter);
+        ////////////////////////////////////////////////
+        else {
+            getDatafromDatabase newTask = new getDatafromDatabase();
+            newTask.execute();
+        }
+
 //////////////////////////////////////////////////
 
 
     }
+
     class DownloadNews extends AsyncTask<String, Void, String> {
 
         @Override
@@ -160,7 +124,7 @@ public class SportsFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String xml) {
-            //AppDatabase.destroyInstance();
+
             dataList.clear();
 
 
@@ -169,7 +133,7 @@ public class SportsFragment extends Fragment {
                 try {
                     JSONObject jsonResponse = new JSONObject(xml);
                     JSONArray jsonArray = jsonResponse.optJSONArray("articles");
-                    textView2.setText(""+jsonArray.length()+"");
+                    textView2.setText("" + jsonArray.length() + "");
 
 
                     for (int i = 0; i < jsonArray.length(); i++) {
@@ -185,14 +149,13 @@ public class SportsFragment extends Fragment {
 
                         //Database
                         //////////////
-                        SportTable sportTable = new SportTable(jsonObject.optString(KEY_AUTHOR),jsonObject.optString(KEY_TITLE)
-                                ,jsonObject.optString(KEY_DESCRIPTION),jsonObject.optString(KEY_URL)
-                                ,jsonObject.optString(KEY_URLTOIMAGE),jsonObject.optString(KEY_PUBLISHEDAT),"sports");
+                        SportTable sportTable = new SportTable(jsonObject.optString(KEY_AUTHOR), jsonObject.optString(KEY_TITLE)
+                                , jsonObject.optString(KEY_DESCRIPTION), jsonObject.optString(KEY_URL)
+                                , jsonObject.optString(KEY_URLTOIMAGE), jsonObject.optString(KEY_PUBLISHEDAT), "sports");
                         try {
                             database.sportDao().insertOne(sportTable);
-                        }
-                        catch (SQLiteConstraintException e){
-                            Log.e("SQL",e.toString());
+                        } catch (SQLiteConstraintException e) {
+                            Log.e("SQL", e.toString());
                         }
 
 
@@ -219,17 +182,18 @@ public class SportsFragment extends Fragment {
         }
     }
 
-    class getDatafromDatabase extends AsyncTask<ArrayList,Void,ArrayList>{
+    class getDatafromDatabase extends AsyncTask<ArrayList, Void, ArrayList> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             dataList.clear();
         }
+
         @Override
         protected ArrayList doInBackground(ArrayList... lists) {
 
-            Cursor cursor = database.query("SELECT * FROM sport WHERE tag = 'sports'",null);
+            Cursor cursor = database.query("SELECT * FROM sport WHERE tag = 'sports'", null);
 
             for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
                 HashMap<String, String> map = new HashMap<>();
@@ -251,21 +215,18 @@ public class SportsFragment extends Fragment {
 
 
         }
-        //@RequiresApi(api = Build.VERSION_CODES.N)
+
         @Override
-        protected void onPostExecute(ArrayList d){
+        protected void onPostExecute(ArrayList d) {
 
             Log.e("ArraySize", String.valueOf(d.size()));
-            //ArrayList<HashMap<String,String>> da = (ArrayList<HashMap<String,String>>) d.stream().limit(20).collect(Collectors.toList());
 
-           // Log.e("ArraySize", String.valueOf(da.size()));
             ListSportAdapter adapter = new ListSportAdapter(SportsFragment.this, d);
 
             listNews.setAdapter(adapter);
 
         }
     }
-
 
 
 }
