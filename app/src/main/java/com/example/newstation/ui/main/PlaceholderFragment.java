@@ -13,6 +13,10 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.newstation.R;
+import com.example.newstation.ui.main.PageViewModel;
+
+
+
 
 /**
  * A placeholder fragment containing a simple view.

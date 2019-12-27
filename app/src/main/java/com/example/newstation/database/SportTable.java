@@ -6,6 +6,8 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
+import com.example.newstation.database.DateConverter;
+
 @Entity(tableName = "sport", indices = {@Index(value = "author"), @Index(value = "title", unique = true),
         @Index(value = "tag"), @Index(value = "description"), @Index(value = "url")
         , @Index(value = "urlToImage"), @Index(value = "publisherAt")})

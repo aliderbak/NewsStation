@@ -22,11 +22,14 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+
 import com.example.newstation.MainActivity;
+
 import com.example.newstation.R;
 import com.example.newstation.news.DetailsActivity;
 import com.example.newstation.news.Function;
 import com.example.newstation.news.ListNewsAdapter;
+import com.example.newstation.ui.main.PageViewModel;
 import com.example.newstation.weather.ListWeatherAdapter;
 
 import org.json.JSONArray;

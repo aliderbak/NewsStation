@@ -21,7 +21,12 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+
+import com.example.newstation.OfflineDetails;
 import com.example.newstation.R;
+import com.example.newstation.ui.main.PageViewModel;
+
+
 import com.example.newstation.database.AppDatabase;
 import com.example.newstation.database.SportTable;
 import com.example.newstation.news.DetailsActivity;
@@ -232,6 +237,11 @@ public class NewsFragment extends Fragment {
             listNews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view,
                                         int position, long id) {
+                    Intent i = new Intent(getActivity(), OfflineDetails.class);
+                    i.putExtra("title", dataList.get(+position).get(KEY_TITLE));
+                    i.putExtra("author", dataList.get(+position).get(KEY_AUTHOR));
+                    i.putExtra("description", dataList.get(+position).get(KEY_DESCRIPTION));
+                    startActivity(i);
 
                     Toast.makeText(getActivity().getBaseContext(), "İnternet bağlantısı yok", Toast.LENGTH_SHORT).show();
                 }

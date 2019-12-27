@@ -7,10 +7,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
 import com.example.newstation.R;
-import com.example.newstation.ui.main.NewsFragment;
-import com.example.newstation.ui.main.SportsFragment;
 import com.squareup.picasso.Picasso;
+
+
+import com.example.newstation.ui.main.SportsFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,9 +40,9 @@ public class ListSportAdapter extends BaseAdapter {
         return position;
     }
     public View getView(int position, View convertView, ViewGroup parent) {
-        com.example.newstation.sport.ListSportViewHolder holder = null;
+       ListSportViewHolder holder = null;
         if (convertView == null) {
-            holder = new com.example.newstation.sport.ListSportViewHolder();
+            holder = new ListSportViewHolder();
             convertView = LayoutInflater.from(activity.getActivity().getBaseContext()).inflate(
                     R.layout.list_row, parent, false);
             holder.galleryImage = (ImageView) convertView.findViewById(R.id.galleryImage);
@@ -50,7 +52,7 @@ public class ListSportAdapter extends BaseAdapter {
             holder.time = (TextView) convertView.findViewById(R.id.time);
             convertView.setTag(holder);
         } else {
-            holder = (com.example.newstation.sport.ListSportViewHolder) convertView.getTag();
+            holder = (ListSportViewHolder) convertView.getTag();
         }
         holder.galleryImage.setId(position);
         holder.author.setId(position);

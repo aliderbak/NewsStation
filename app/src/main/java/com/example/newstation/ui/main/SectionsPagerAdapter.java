@@ -11,6 +11,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.newstation.R;
+import com.example.newstation.ui.main.FinanceFragment;
+import com.example.newstation.ui.main.NewsFragment;
+
+
+
+
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to

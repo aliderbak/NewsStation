@@ -4,5 +4,9 @@
     <string name="finance"></string>
     <string name="sport"></string>
     <string name="weather"></string>
-
+    <string name="article_title">Title</string>
+    <string name="title_activity_offline_details">OfflineDetails</string>
+    <string name="textview">TextView</string>
+    <string name="article_subtitle">Subtitle</string>
+    <string name="article_text">Article</string>
 </resources>

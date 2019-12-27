@@ -7,9 +7,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+
+import com.example.newstation.R;
 import com.example.newstation.ui.main.NewsFragment;
 import com.example.newstation.MainActivity;
-import com.example.newstation.R;
+
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

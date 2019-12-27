@@ -15,6 +15,8 @@ import com.example.newstation.news.Function;
 import com.example.newstation.ui.main.SectionsPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 
+
+
 import berlin.volders.badger.BadgeDrawable;
 
 public class MainActivity extends AppCompatActivity {

@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
 import com.example.newstation.R;
 import com.example.newstation.ui.main.FinanceFragment;
 import com.example.newstation.ui.main.NewsFragment;

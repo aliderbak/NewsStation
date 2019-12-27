@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.newstation.R;
 
+
 public class DetailsActivitySport extends AppCompatActivity {
     WebView webView;
     ProgressBar loader;
