@@ -6,14 +6,11 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-import java.util.HashMap;
-
-//@Entity(tableName = "sport" )
-@Entity(tableName ="sport", indices = {@Index(value = "author"),@Index(value = "title" , unique = true),
-                                                                 @Index(value = "tag"),@Index(value = "description"),@Index(value = "url")
-                                                                  ,@Index(value = "urlToImage"),@Index(value = "publisherAt")})
+@Entity(tableName = "sport", indices = {@Index(value = "author"), @Index(value = "title", unique = true),
+        @Index(value = "tag"), @Index(value = "description"), @Index(value = "url")
+        , @Index(value = "urlToImage"), @Index(value = "publisherAt")})
 @TypeConverters({DateConverter.class})
-public class SportTable  {
+public class SportTable {
     @PrimaryKey(autoGenerate = true)
     private int uid;
     @ColumnInfo(name = "author")
@@ -32,11 +29,11 @@ public class SportTable  {
     @ColumnInfo(name = "publisherAt")
     private String mPublisherAt;
 
-    public SportTable (String mAuthor, String mTitle, String mDescription, String mUrl, String mUrlToImage,String mPublisherAt,String mTag){
+    public SportTable(String mAuthor, String mTitle, String mDescription, String mUrl, String mUrlToImage, String mPublisherAt, String mTag) {
         this.mAuthor = mAuthor;
-        this.mTag=mTag;
+        this.mTag = mTag;
         this.mDescription = mDescription;
-        this.mPublisherAt  = mPublisherAt;
+        this.mPublisherAt = mPublisherAt;
         this.mUrl = mUrl;
         this.mUrlToImage = mUrlToImage;
         this.mTitle = mTitle;

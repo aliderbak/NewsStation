@@ -25,7 +25,7 @@ import com.example.newstation.database.AppDatabase;
 import com.example.newstation.database.SportTable;
 import com.example.newstation.news.Function;
 import com.example.newstation.news.ListNewsAdapter;
-import com.example.newstation.news.NewsAdapter;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,7 +61,7 @@ public class NewsFragment extends Fragment {
 
     ////////////////////
 
-    final NewsAdapter newsAdapter = new NewsAdapter();
+
     private PageViewModel pageViewModel;
 
     public NewsFragment() {
@@ -72,6 +72,7 @@ public class NewsFragment extends Fragment {
         return new NewsFragment();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

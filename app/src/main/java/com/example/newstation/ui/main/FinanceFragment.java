@@ -40,9 +40,7 @@ public class FinanceFragment extends Fragment {
     private static final String TAG = "Finance";
 
     private PageViewModel pageViewModel;
-    RecyclerView recyclerView;
-    ArrayList<Items> items;
-    private listAdapter ListAdapter;
+
     AppDatabase database;
 
 

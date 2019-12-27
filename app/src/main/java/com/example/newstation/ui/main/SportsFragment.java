@@ -38,9 +38,7 @@ import static com.example.newstation.MainActivity.textView2;
 
 public class SportsFragment extends Fragment {
 
-    RecyclerView recyclerView;
-    ArrayList<Items> items;
-    private listAdapter ListAdapter;
+
     String API_KEY = "ff8c03c87d0048fb8ce9209c6239d52c"; // ### YOUE NEWS API HERE ###
     String NEWS_SOURCE = "techcrunch"; // Other news source code at: https://newsapi.org/sources
     String COUNTRY = "tr";
